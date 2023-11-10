@@ -1,0 +1,57 @@
+package templates
+
+templ Home() {
+	@Base() {
+		<h1>Welcome to HyperGoFram!</h1>
+	}
+}
+
+templ About() {
+	@Base() {
+		<h1 id="hypergofram">HyperGoFram</h1>
+		<blockquote>
+			<p>fullstack golang development experience</p>
+		</blockquote>
+		<p>
+			Develop SSR golang apps quickly with this minimalist yet powerful framework!
+			<br/>
+			No more huge bloating JS for your websites. Bonus, uses HTMX's battery included Web Transitions API for proper web SPA sex appeal. 
+		</p>
+		<h2 id="features">Features</h2>
+		<ul>
+			<li>TEMPL as the templating engine</li>
+			<li>Gin as the Web Framework</li>
+			<li>HTMX (HTML extended with AJAX) inside TEMPL components</li>
+			<li>opinionated folder structure</li>
+			<li>instant reload with Air (build and run)</li>
+		</ul>
+		<h2 id="installation">Installation:</h2>
+		<ul>
+			<li>
+				<p>Clone the repo!<br/><code>git clone github.com/YiumPotato/HyperGoFram@latest</code></p>
+			</li>
+			<li>
+				<p>
+					<a href="https://templ.guide/quick-start/installation/">Install TEMPL</a>
+					<br/>
+					<code>go install github.com/a-h/templ/cmd/templ@latest</code>
+				</p>
+			</li>
+			<li>
+				<p>
+					<a href="https://github.com/cosmtrek/air#installation">Install Air</a>
+					// for live 
+					reloading of the app, 
+					it will rebuild the .templ
+					files on file change, perfect for go development
+					quite good in development
+					<br/>
+					<code>go install github.com/cosmtrek/air@latest</code>
+				</p>
+			</li>
+			<li>
+				<p>run <code>air</code> and you're good to go, it will build &amp; run automagically.</p>
+			</li>
+		</ul>
+	}
+}
