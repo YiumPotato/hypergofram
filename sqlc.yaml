@@ -1,0 +1,15 @@
+version: "2"
+# cloud:
+#   # Replace <PROJECT_ID> with your project ID from the sqlc Cloud dashboard
+#   project: "<PROJECT_ID>"
+sql:
+  - engine: "postgresql"
+    queries: "internal/db/query/"
+    schema: "internal/db/migrations/"
+    # database:
+    #   managed: true
+    gen:
+      go:
+        package: "db"
+        out: "internal/db/"
+        sql_package: "pgx/v5"
