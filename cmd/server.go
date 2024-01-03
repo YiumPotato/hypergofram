@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/YiumPotato/hypergofram/internal/db"
 	"github.com/YiumPotato/hypergofram/internal/routes"
 )
 
@@ -15,6 +16,12 @@ func main() {
 	}
 
 	r := routes.SetupRouter()
+
+	err := db.InitDB()
+	if err != nil {
+		fmt.Println(err)
+	}
+	defer db.CloseDB()
 
 	r.Run(fmt.Sprintf(":%v", port))
 
