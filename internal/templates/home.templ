@@ -1,8 +1,40 @@
 package templates
 
-templ Home() {
+import (
+	"github.com/YiumPotato/hypergofram/internal/db"
+)
+
+templ Home(todos []db.Todo) {
 	@Base() {
-		<h1>Welcome to HyperGoFram!</h1>
+		<h1>Welcome to HyperGoFram! Here's a todo list. </h1>
+		<form hx-post="/api/v1/todo">
+			<input type="text" name="title" placeholder="todo" />
+			<checkbox name="done" value="false" />
+			<input type="submit" value="Add Todo" />
+		</form>
+
+		<ul>
+			for _, todo := range todos {
+				@Todo(todo.Title.String, todo.Done.Bool)
+			}
+		</ul>
+	}
+}
+
+templ Todo(title string, done bool) {
+	<li>
+		<b>{title}</b>:
+		if done {
+			<span>Done!</span>
+		} else {
+			<span>Not Done!</span>
+		}
+	</li>
+}
+
+templ Error(err string) {
+	@Base() {
+		<h1>Error: {err}!</h1>
 	}
 }
 
