@@ -1,0 +1,31 @@
+services:
+  air_dev:
+    build:
+      context: .
+      # Correct the path to your Dockerfile
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080
+    environment:
+      - hello=world # example
+    volumes:
+      - .:/app/ # whole app volumed into container
+    depends_on:
+      - postgres
+  # redis:
+  #   image: redis:latest
+  #   command: redis-server
+  #   volumes:
+  #     - ./tmp/redis_data:/var/lib/redis
+  #   ports:
+  #     - 6379:6379
+  postgres:
+    image: postgres:16.1-alpine
+    ports:
+      - 5432:5432
+    volumes:
+      - ./tmp/psql_data:/var/lib/postgresql/data:rw 
+    environment:
+      - POSTGRES_PASSWORD=secret123
+      - POSTGRES_USER=root
+      - POSTGRES_DB=postgres
