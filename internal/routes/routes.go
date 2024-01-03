@@ -28,5 +28,16 @@ func SetupRouter() *gin.Engine {
 	r.GET("/", controllers.Home)
 	r.GET("/about", controllers.About)
 
+	// API Routes
+
+	v1 := r.Group("/api/v1")
+	{
+		v1.GET("todo", controllers.GetTodos)
+		v1.POST("todo", controllers.CreateATodo)
+		v1.GET("todo/:id", controllers.GetATodo)
+		v1.PUT("todo/:id", controllers.UpdateATodo)
+		v1.DELETE("todo/:id", controllers.DeleteATodo)
+	}
+
 	return r
 }
