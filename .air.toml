@@ -5,12 +5,12 @@ tmp_dir = "tmp"
 [build]
   args_bin = []
   bin = "./tmp/main"
-  pre_cmd = ["templ generate"]
+  pre_cmd = ["templ generate", "sqlc generate"]
   cmd = "go build -o ./tmp/main ./cmd/"
   delay = 1000
   exclude_dir = ["static", "tmp", "vendor", "testdata", "node_modules"]
   exclude_file = []
-  exclude_regex = ["_test.go", "_templ.go"]
+  exclude_regex = ["_test.go", "_templ.go", "db.go", "models.go", ".sql.go"]
   exclude_unchanged = false
   follow_symlink = false
   full_bin = ""
