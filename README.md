@@ -11,8 +11,22 @@ No more huge bloating JS for your websites. Bonus, uses HTMX's battery included 
 - HTMX (HTML extended with AJAX) inside TEMPL components
 - opinionated folder structure
 - instant reload with Air (build and run)
+- pre instant SQLC generation of db queries into go code
+- Go Migrate to generate db schema
+- simple Makefile to debug / configure DB
 
 ## Installation:
+
+### Docker installation
+
+You can either use `docker compose up`, which will boot up 2 containers:
+- air_dev: image made from the Dockerfile consisting of hot reloading Air with TEMPL and sqlc
+- postgres: psql running on env settings set in the compose file
+
+To deal with db migrations that way I recommend to start the postgres container first, and use go migrate to migrate the db. (`docker compose start postgres`)
+
+
+### Manually
 
 - Clone the repo!\
 `git clone github.com/YiumPotato/HyperGoFram@latest`
@@ -25,9 +39,18 @@ No more huge bloating JS for your websites. Bonus, uses HTMX's battery included 
 
 - run `air` and you're good to go, it will build & run automagically.
 
-### TODO checklist
+### Makefile
+Use the Makefile to: (`make createdb` for example)
+- dropdb 
+- createdb
+- migrateup
+- migratedown
 
-- [ ] Add Docker installation method
+## TODO checklist
+
+- [X] Add Docker installation method
+- [X] Added DB configuration
+- [ ] Go migrate db 
 - [ ] Create CLI to add or delete certain things
 - - [ ] Such as GCP Identifier Platform backend authentication
 - - [ ] firebase auth
