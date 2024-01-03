@@ -9,8 +9,7 @@ import (
 )
 
 type Todo struct {
-	ID          int64
-	Title       pgtype.Text
-	Description pgtype.Text
-	Done        pgtype.Bool
+	ID    int64
+	Title pgtype.Text
+	Done  pgtype.Bool
 }

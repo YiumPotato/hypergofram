@@ -1,7 +1,7 @@
 -- name: CreateTodo :one
 INSERT INTO todos (
-    title varchar,
-    done bool
+    title,
+    done
 )
 VALUES ($1, $2)
 RETURNING *;
@@ -19,7 +19,8 @@ OFFSET $2;
 -- name: UpdateTodo :one
 UPDATE todos
 SET title = $1,
-WHERE id = $2
+    done = $2
+WHERE id = $3
 RETURNING *;
 
 -- name: DeleteTodo :exec

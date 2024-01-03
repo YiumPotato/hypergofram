@@ -34,28 +34,21 @@ func (q *Queries) CountTodos(ctx context.Context) (int64, error) {
 const createTodo = `-- name: CreateTodo :one
 INSERT INTO todos (
     title,
-    description,
     done
 )
-VALUES ($1, $2, $3)
-RETURNING id, title, description, done
+VALUES ($1, $2)
+RETURNING id, title, done
 `
 
 type CreateTodoParams struct {
-	Title       pgtype.Text
-	Description pgtype.Text
-	Done        pgtype.Bool
+	Title pgtype.Text
+	Done  pgtype.Bool
 }
 
 func (q *Queries) CreateTodo(ctx context.Context, arg CreateTodoParams) (Todo, error) {
-	row := q.db.QueryRow(ctx, createTodo, arg.Title, arg.Description, arg.Done)
+	row := q.db.QueryRow(ctx, createTodo, arg.Title, arg.Done)
 	var i Todo
-	err := row.Scan(
-		&i.ID,
-		&i.Title,
-		&i.Description,
-		&i.Done,
-	)
+	err := row.Scan(&i.ID, &i.Title, &i.Done)
 	return i, err
 }
 
@@ -70,24 +63,19 @@ func (q *Queries) DeleteTodo(ctx context.Context, id int64) error {
 }
 
 const getTodo = `-- name: GetTodo :one
-SELECT id, title, description, done FROM todos
+SELECT id, title, done FROM todos
 WHERE id = $1
 `
 
 func (q *Queries) GetTodo(ctx context.Context, id int64) (Todo, error) {
 	row := q.db.QueryRow(ctx, getTodo, id)
 	var i Todo
-	err := row.Scan(
-		&i.ID,
-		&i.Title,
-		&i.Description,
-		&i.Done,
-	)
+	err := row.Scan(&i.ID, &i.Title, &i.Done)
 	return i, err
 }
 
 const listTodos = `-- name: ListTodos :many
-SELECT id, title, description, done FROM todos
+SELECT id, title, done FROM todos
 ORDER BY id
 LIMIT $1
 OFFSET $2
@@ -107,12 +95,7 @@ func (q *Queries) ListTodos(ctx context.Context, arg ListTodosParams) ([]Todo, e
 	var items []Todo
 	for rows.Next() {
 		var i Todo
-		if err := rows.Scan(
-			&i.ID,
-			&i.Title,
-			&i.Description,
-			&i.Done,
-		); err != nil {
+		if err := rows.Scan(&i.ID, &i.Title, &i.Done); err != nil {
 			return nil, err
 		}
 		items = append(items, i)
@@ -126,25 +109,20 @@ func (q *Queries) ListTodos(ctx context.Context, arg ListTodosParams) ([]Todo, e
 const updateTodo = `-- name: UpdateTodo :one
 UPDATE todos
 SET title = $1,
-    description = $2
+    done = $2
 WHERE id = $3
-RETURNING id, title, description, done
+RETURNING id, title, done
 `
 
 type UpdateTodoParams struct {
-	Title       pgtype.Text
-	Description pgtype.Text
-	ID          int64
+	Title pgtype.Text
+	Done  pgtype.Bool
+	ID    int64
 }
 
 func (q *Queries) UpdateTodo(ctx context.Context, arg UpdateTodoParams) (Todo, error) {
-	row := q.db.QueryRow(ctx, updateTodo, arg.Title, arg.Description, arg.ID)
+	row := q.db.QueryRow(ctx, updateTodo, arg.Title, arg.Done, arg.ID)
 	var i Todo
-	err := row.Scan(
-		&i.ID,
-		&i.Title,
-		&i.Description,
-		&i.Done,
-	)
+	err := row.Scan(&i.ID, &i.Title, &i.Done)
 	return i, err
 }
